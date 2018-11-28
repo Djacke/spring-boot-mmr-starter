@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.mmr.rudiment.mapper.ContactPersonMapper">
+    <resultMap id="BaseResultMap" type="cn.mmr.rudiment.model.ContactPerson">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="contact_person" jdbcType="VARCHAR" property="contactPerson"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="source" jdbcType="INTEGER" property="source"/>
+        <result column="is_legal_person" jdbcType="INTEGER" property="isLegalPerson"/>
+        <result column="is_sign_person" jdbcType="INTEGER" property="isSignPerson"/>
+        <result column="is_main_contact" jdbcType="INTEGER" property="isMainContact"/>
+        <result column="duty" jdbcType="VARCHAR" property="duty"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_user_id" jdbcType="BIGINT" property="createUserId"/>
+        <result column="update_user_id" jdbcType="BIGINT" property="updateUserId"/>
+    </resultMap>
+
+    <sql id="contactColumns">
+        contact_person,contact_phone,source,is_legal_person,is_sign_person,is_main_contact,duty,remark,address,create_time,update_time,create_user_id,update_user_id
+    </sql>
+
+    <insert id="saveContactPerson" parameterType="cn.mmr.rudiment.model.ContactPerson">
+        insert into
+        customer_contact_person(
+        id
+        <if test="contactPerson !=null ">,contact_person</if>
+        <if test="contactPhone !=null ">,contact_phone</if>
+        <if test="source !=null ">,source</if>
+        <if test="isLegalPerson !=null ">,is_legal_person</if>
+        <if test="isSignPerson !=null ">,is_sign_person</if>
+        <if test="isMainContact !=null ">,is_main_contact</if>
+        <if test="duty !=null ">,duty</if>
+        <if test="remark !=null ">,remark</if>
+        <if test="address !=null ">,address</if>
+        ,create_time
+        ,update_time
+        <if test="createUserId !=null ">,create_user_id</if>
+        <if test="updateUserId !=null ">,update_user_id</if>
+        )
+        values (
+        #{id}
+        <if test="contactPerson !=null ">,#{contactPerson}</if>
+        <if test="contactPhone !=null ">,#{contactPhone}</if>
+        <if test="source !=null ">,#{source.code}</if>
+        <if test="isLegalPerson !=null ">,#{isLegalPerson}</if>
+        <if test="isSignPerson !=null ">,#{isSignPerson}</if>
+        <if test="isMainContact !=null ">,#{isMainContact}</if>
+        <if test="duty !=null ">,#{duty}</if>
+        <if test="remark !=null ">,#{remark}</if>
+        <if test="address !=null ">,#{address}</if>
+        ,now()
+        ,now()
+        <if test="createUserId !=null ">,#{createUserId}</if>
+        <if test="updateUserId !=null ">,#{updateUserId}</if>
+        );
+    </insert>
+
+    <select id="findContactById" parameterType="long" resultType="cn.mmr.rudiment.model.ContactPerson">
+        select
+        <include refid="contactColumns"/>
+        from customer_contact_person
+        where id = #{id} ORDER BY is_main_contact desc;
+    </select>
+
+    <delete id="deleteAll">
+        delete from customer_contact_person;
+    </delete>
+
+    <insert id="insertContactsPersonBatch" parameterType="java.util.List">
+        insert into
+            customer_contact_person(id,contact_person,contact_phone,source,is_main_contact,create_user_id,update_user_id)
+        values
+        <foreach collection="list" item="contacts" index="index" separator=",">
+            (
+            #{contacts.id},
+            #{contacts.contactPerson},
+            #{contacts.contactPhone},
+            #{contacts.source},
+            #{contacts.isMainContact},
+            #{contacts.createUserId},
+            #{contacts.updateUserId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getContactPersonIdsByName" resultMap="BaseResultMap">
+        select * from customer_contact_person
+        where contact_person like #{personName}
+    </select>
+</mapper>
