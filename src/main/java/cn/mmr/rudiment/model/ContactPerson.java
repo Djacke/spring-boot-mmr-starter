@@ -6,12 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "contact")
 @Getter
-@Setter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor

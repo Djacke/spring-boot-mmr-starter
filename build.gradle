@@ -38,7 +38,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 
 group 'cn.mmr.rudiment'
 version '1.0-SNAPSHOT'
@@ -101,7 +101,9 @@ dependencies {
             'com.alibaba:fastjson:1.2.35',
             'mysql:mysql-connector-java',
             'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2',
-            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.2'
+            'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.2',
+            'org.springframework.boot:spring-boot-starter-data-mongodb',
+            'org.springframework.boot:spring-boot-starter-data-rest'
     )
     runtime('org.springframework.boot:spring-boot-devtools')
     compileOnly('org.projectlombok:lombok')
@@ -111,7 +113,8 @@ dependencies {
             'io.projectreactor:reactor-test',
             'commons-io:commons-io:2.6',
             'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:1.3.2',
-            'com.h2database:h2'
+            'com.h2database:h2',
+            'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     )
 
     integTestCompile sourceSets.main.output

@@ -3,6 +3,7 @@ spring:
     name: mmr-rudiment
   profiles:
     active: development
+  data.rest.basePath: restdata
 
 ---
 spring:
