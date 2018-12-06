@@ -74,3 +74,27 @@ public interface ContactPersonRepository extends MongoRepository<ContactPerson, 
         .andExpect(jsonPath("$.[0].contactPerson").value("ceshi1"));
   }
 ```
+
+#### rabbitmq
+- gradle 
+```
+compile('org.springframework.boot:spring-boot-starter-amqp')
+```
+- config
+ 
+  - [x] 测试目录下模拟启动amqp
+  - [x] 申明mq的exchange 和 queue
+
+- rabbit mq listener
+
+  监听队列，接收消息
+```java
+  @RabbitListener(queues = AmqpConfig.RECEIPT_VOUCHER_QUEUE)
+  public void receive(String message) throws IOException {
+    System.out.println("接受消息内容:" + message);
+    messageDatas.add(objectMapper.readValue(message, ContactPerson.class));
+  }
+```
+
+- integration test
+  发送消息到测试队列，并检查消费是否成功
