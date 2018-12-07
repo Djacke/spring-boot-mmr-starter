@@ -104,7 +104,9 @@ dependencies {
             'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.2',
             'org.springframework.boot:spring-boot-starter-data-mongodb',
             'org.springframework.boot:spring-boot-starter-data-rest',
-            'org.springframework.boot:spring-boot-starter-amqp'
+            'org.springframework.boot:spring-boot-starter-amqp',
+            'org.springframework.data:spring-data-redis',
+            'redis.clients:jedis'
     )
     runtime('org.springframework.boot:spring-boot-devtools')
     compileOnly('org.projectlombok:lombok')
@@ -116,7 +118,8 @@ dependencies {
             'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:1.3.2',
             'com.h2database:h2',
             'de.flapdoodle.embed:de.flapdoodle.embed.mongo',
-            'org.apache.qpid:qpid-broker:6.1.2'
+            'org.apache.qpid:qpid-broker:6.1.2',
+            'com.github.kstyrc:embedded-redis:0.6'
     )
 
     integTestCompile sourceSets.main.output
