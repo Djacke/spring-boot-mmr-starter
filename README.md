@@ -106,6 +106,10 @@ compile(
       'org.springframework.data:spring-data-redis',
       'redis.clients:jedis'
 )
+
+testCompile(
+      'com.github.kstyrc:embedded-redis:0.6'
+)
 ```
 - mock redis connection
 ```java
