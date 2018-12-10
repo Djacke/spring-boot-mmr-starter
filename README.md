@@ -98,3 +98,59 @@ compile('org.springframework.boot:spring-boot-starter-amqp')
 
 - integration test
   发送消息到测试队列，并检查消费是否成功
+  
+#### Spring boot cache with redis
+- gradle 
+```
+compile(
+      'org.springframework.data:spring-data-redis',
+      'redis.clients:jedis'
+)
+```
+- mock redis connection
+```java
+@Configuration
+@Profile("integTest")
+public class RedisConfig {
+  private RedisServer redisServer;
+
+  @Value("localhost")
+  private String redisHost;
+
+  @Value("${random.int[58000,60000]}")
+  private int redisPort;
+
+  @Bean
+  @Primary
+  JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory factory = new JedisConnectionFactory(
+        new RedisStandaloneConfiguration(redisHost, redisPort)
+    );
+    return factory;
+  }
+
+  @PostConstruct
+  public void startRedis() throws IOException {
+    redisServer = new RedisServer(redisPort);
+    redisServer.start();
+  }
+
+  @PreDestroy
+  public void stopRedis() {
+    redisServer.stop();
+  }
+}
+```
+
+- cache configuration
+  
+  定义自己的cachemanage 和cache 名称，还有redis存储序列化的相关配置
+
+- cache service 
+  
+  增加缓存的操作方法，注意使用如下注解`@Cacheable` `@CachePut` `@CacheEvict`
+
+- 启用缓存
+  
+  启动类增加注解 `@EnableCaching`
+
