@@ -79,6 +79,8 @@ public interface ContactPersonRepository extends MongoRepository<ContactPerson, 
 - gradle 
 ```
 compile('org.springframework.boot:spring-boot-starter-amqp')
+
+testCompile('org.apache.qpid:qpid-broker:6.1.2')
 ```
 - config
  
